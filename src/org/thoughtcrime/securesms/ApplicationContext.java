@@ -30,6 +30,7 @@ import android.support.v7.preference.PreferenceManager;
 import com.appsgeyser.sdk.AppsgeyserSDK;
 import com.google.android.gms.security.ProviderInstaller;
 
+import org.conscrypt.Conscrypt;
 import org.thoughtcrime.securesms.components.TypingStatusRepository;
 import org.thoughtcrime.securesms.components.TypingStatusSender;
 import org.thoughtcrime.securesms.config.Config;
@@ -68,6 +69,7 @@ import org.webrtc.voiceengine.WebRtcAudioManager;
 import org.webrtc.voiceengine.WebRtcAudioUtils;
 import org.whispersystems.libsignal.logging.SignalProtocolLoggerProvider;
 
+import java.security.Security;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -106,7 +108,7 @@ public class ApplicationContext extends MultiDexApplication implements Dependenc
   public void onCreate() {
     super.onCreate();
     Log.i(TAG, "onCreate()");
-    initializeRandomNumberFix();
+    initializeSecurityProvider();
     initializeLogging();
     initializeCrashHandling();
     initializeDependencyInjection();
@@ -174,8 +176,8 @@ public class ApplicationContext extends MultiDexApplication implements Dependenc
     return persistentLogger;
   }
 
-  private void initializeRandomNumberFix() {
-    PRNGFixes.apply();
+  private void initializeSecurityProvider() {
+    Security.insertProviderAt(Conscrypt.newProvider(), 1);
   }
 
   private void initializeAppsgeyser() {
