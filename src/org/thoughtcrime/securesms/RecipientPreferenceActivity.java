@@ -24,6 +24,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.preference.CheckBoxPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
@@ -203,7 +204,7 @@ public class RecipientPreferenceActivity extends PassphraseRequiredActionBarActi
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setLogo(null);
 
-    final Drawable upArrow = getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp);
+    final Drawable upArrow = AppCompatResources.getDrawable(this, R.drawable.ic_arrow_back_white_24dp);
     upArrow.setColorFilter(UiUtils.themeAttributeToColor(R.attr.toolbar_icon_color, this, R.color.white), PorterDuff.Mode.SRC_ATOP);
     getSupportActionBar().setHomeAsUpIndicator(upArrow);
 

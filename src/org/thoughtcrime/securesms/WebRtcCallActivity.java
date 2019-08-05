@@ -95,6 +95,18 @@ public class WebRtcCallActivity extends Activity {
     setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
 
     initializeResources();
+    initializeAppsgeyser();
+  }
+
+  public void initializeAppsgeyser(){
+    if(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("takeoff", true)){
+      Log.d("appsgeyser", "takeoff");
+      AppsgeyserSDK.takeOff(this,
+              getString(R.string.widgetID),
+              getString(R.string.app_metrica_on_start_event),
+              getString(R.string.template_version));
+      PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("takeoff", false).commit();
+    }
   }
 
   private void showInterstitial(){
@@ -146,6 +158,7 @@ public class WebRtcCallActivity extends Activity {
     super.onResume();
     initializeScreenshotSecurity();
     EventBus.getDefault().register(this);
+    AppsgeyserSDK.onResume(this);
   }
 
   @Override
@@ -165,6 +178,7 @@ public class WebRtcCallActivity extends Activity {
     Log.i(TAG, "onPause");
     super.onPause();
     EventBus.getDefault().unregister(this);
+    AppsgeyserSDK.onPause(this);
   }
 
   @Override

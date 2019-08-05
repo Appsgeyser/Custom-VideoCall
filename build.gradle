@@ -78,8 +78,8 @@ repositories {
 }
 
 dependencies {
-    def supportVersion = '27.1.1'
-    compile ('com.appsgeyser.sdk:appsgeysersdk:2.02.s'){
+    def supportVersion = '28.0.0'
+    compile ('com.appsgeyser.sdk:appsgeysersdk:2.07.s'){
         transitive=true
         exclude module: 'support-compat'
         exclude group: 'com.android.support', module: 'design'
@@ -126,6 +126,7 @@ dependencies {
     compile "com.google.android.gms:play-services-location:16.0.0"
     compile "com.google.android.gms:play-services-plus:16.0.0"
     compile "com.google.android.gms:play-services-base:16.0.0"
+    compile "com.google.android.gms:play-services-tasks:16.0.0"
 
     compile 'com.google.android.exoplayer:exoplayer-core:2.9.1'
     compile 'com.google.android.exoplayer:exoplayer-ui:2.9.1'
@@ -203,7 +204,7 @@ dependencies {
 
 android {
     flavorDimensions "none"
-    compileSdkVersion 27
+    compileSdkVersion 28
     buildToolsVersion '28.0.3'
     useLibrary 'org.apache.http.legacy'
 
@@ -216,7 +217,7 @@ android {
         versionName "4.34.2"
 
         minSdkVersion 19
-        targetSdkVersion 26
+        targetSdkVersion 28
         multiDexEnabled true
 
         vectorDrawables.useSupportLibrary = true
@@ -334,7 +335,18 @@ android {
         abortOnError false
     }
 }
+configurations.all {
+    resolutionStrategy {
+        force 'com.google.android.gms:play-services-maps:16.0.0'
+        force 'com.google.android.gms:play-services-places:16.0.0'
+        force 'com.google.android.gms:play-services-auth:16.0.0'
+        force "com.google.android.gms:play-services-gcm:16.0.0"
+        force "com.google.android.gms:play-services-location:16.0.0"
+        force "com.google.android.gms:play-services-plus:16.0.0"
 
+        force "com.google.firebase:firebase-messaging:17.3.4"
+    }
+}
 def assembleWebsiteDescriptor = { variant, file ->
     if (file.exists()) {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
