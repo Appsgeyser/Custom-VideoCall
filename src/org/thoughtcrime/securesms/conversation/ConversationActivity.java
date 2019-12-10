@@ -119,7 +119,6 @@ import org.thoughtcrime.securesms.components.identity.UntrustedSendDialog;
 import org.thoughtcrime.securesms.components.identity.UnverifiedBannerView;
 import org.thoughtcrime.securesms.components.identity.UnverifiedSendDialog;
 import org.thoughtcrime.securesms.components.location.SignalPlace;
-import org.thoughtcrime.securesms.components.reminder.ExpiredBuildReminder;
 import org.thoughtcrime.securesms.components.reminder.InviteReminder;
 import org.thoughtcrime.securesms.components.reminder.ReminderView;
 import org.thoughtcrime.securesms.components.reminder.ServiceOutageReminder;
@@ -1420,8 +1419,6 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
 
     if (UnauthorizedReminder.isEligible(this)) {
       reminderView.get().showReminder(new UnauthorizedReminder(this));
-    } else if (ExpiredBuildReminder.isEligible()) {
-      reminderView.get().showReminder(new ExpiredBuildReminder(this));
     } else if (ServiceOutageReminder.isEligible(this)) {
       ApplicationContext.getInstance(this).getJobManager().add(new ServiceOutageDetectionJob(this));
       reminderView.get().showReminder(new ServiceOutageReminder(this));

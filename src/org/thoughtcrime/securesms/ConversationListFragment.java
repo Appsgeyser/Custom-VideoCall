@@ -61,8 +61,6 @@ import org.thoughtcrime.securesms.components.recyclerview.DeleteItemAnimator;
 import org.thoughtcrime.securesms.components.registration.PulsingFloatingActionButton;
 import org.thoughtcrime.securesms.components.reminder.DefaultSmsReminder;
 import org.thoughtcrime.securesms.components.reminder.DozeReminder;
-import org.thoughtcrime.securesms.components.reminder.ExpiredBuildReminder;
-import org.thoughtcrime.securesms.components.reminder.OutdatedBuildReminder;
 import org.thoughtcrime.securesms.components.reminder.PushRegistrationReminder;
 import org.thoughtcrime.securesms.components.reminder.Reminder;
 import org.thoughtcrime.securesms.components.reminder.ReminderView;
@@ -193,13 +191,9 @@ public class ConversationListFragment extends Fragment
         final Context context = params[0];
         if (UnauthorizedReminder.isEligible(context)) {
           return Optional.of(new UnauthorizedReminder(context));
-        } else if (ExpiredBuildReminder.isEligible()) {
-          return Optional.of(new ExpiredBuildReminder(context));
         } else if (ServiceOutageReminder.isEligible(context)) {
           ApplicationContext.getInstance(context).getJobManager().add(new ServiceOutageDetectionJob(context));
           return Optional.of(new ServiceOutageReminder(context));
-        } else if (OutdatedBuildReminder.isEligible()) {
-          return Optional.of(new OutdatedBuildReminder(context));
         } else if (DefaultSmsReminder.isEligible(context)) {
           return Optional.of(new DefaultSmsReminder(context));
         } else if (Util.isDefaultSmsProvider(context) && SystemSmsImportReminder.isEligible(context)) {

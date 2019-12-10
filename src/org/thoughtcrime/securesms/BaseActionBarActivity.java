@@ -70,14 +70,8 @@ public abstract class BaseActionBarActivity extends AppCompatActivity {
   }
 
   public void showFullscreen(String bannerTag){
-    long lastBannerTime = PreferenceManager.getDefaultSharedPreferences(this).getLong("lastBannerTime", 0L);
-    if(System.currentTimeMillis() - lastBannerTime > FULLSCREEN_BANNER_TIMEOUT) {
-        AppsgeyserSDK.getFastTrackAdsController()
-                .showFullscreen(Constants.BannerLoadTags.ON_START, this, bannerTag);
-        PreferenceManager.getDefaultSharedPreferences(this)
-                .edit().putLong("lastBannerTime", System.currentTimeMillis()).apply();
-    }
-
+    AppsgeyserSDK.getFastTrackAdsController()
+            .showFullscreen(Constants.BannerLoadTags.ON_START, this, bannerTag, true);
   }
 
   @Override
