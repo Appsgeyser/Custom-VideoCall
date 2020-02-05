@@ -36,6 +36,7 @@ import android.support.v7.widget.Toolbar;
 import org.thoughtcrime.securesms.conversation.ConversationActivity;
 import org.thoughtcrime.securesms.logging.Log;
 
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -154,6 +155,17 @@ public class ShareActivity extends PassphraseRequiredActionBarActivity
 
     if (actionBar != null) {
       actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case android.R.id.home:
+        onBackPressed();
+        return true;
+      default:
+        return super.onOptionsItemSelected(item);
     }
   }
 

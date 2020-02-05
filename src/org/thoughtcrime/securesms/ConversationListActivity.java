@@ -246,7 +246,7 @@ public class ConversationListActivity extends PassphraseRequiredActionBarActivit
 
     private void initializeProfileIcon(@NonNull Recipient recipient) {
         ImageView icon = navigationView.getHeaderView(0).findViewById(R.id.toolbar_icon);
-        String name = Optional.fromNullable(recipient.getName()).or(Optional.fromNullable(TextSecurePreferences.getProfileName(this))).or("");
+        String name = Optional.fromNullable(TextSecurePreferences.getProfileName(this)).or("");
         MaterialColor fallbackColor = recipient.getColor();
 
         if (fallbackColor == ContactColors.UNKNOWN_COLOR && !TextUtils.isEmpty(name)) {

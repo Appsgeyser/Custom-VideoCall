@@ -67,8 +67,8 @@ public abstract class AbstractNotificationBuilder extends NotificationCompat.Bui
       String[] blinkPatternArray = parseBlinkPattern(ledBlinkPattern, ledBlinkPatternCustom);
 
       setLights(Color.parseColor(ledColor),
-                Integer.parseInt(blinkPatternArray[0]),
-                Integer.parseInt(blinkPatternArray[1]));
+                1000,
+                1000);
     }
   }
 

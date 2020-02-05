@@ -212,8 +212,8 @@
         <item name="conversation_item_sticky_date_text_color">@color/core_grey_60</item>
         <item name="conversation_item_image_outline_color">@color/transparent_black_30</item>
 
-        <item name="quick_camera_icon">@drawable/outline_photo_camera_white_24</item>
-        <item name="quick_mic_icon">@drawable/outline_mic_none_24</item>
+        <item name="quick_camera_icon">@drawable/outline_photo_camera_grey_24</item>
+        <item name="quick_mic_icon">@drawable/outline_mic_none_gray_24</item>
 
         <item name="conversation_item_sent_indicator_text_background">@drawable/conversation_item_sent_indicator_text_shape</item>
 
