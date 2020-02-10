@@ -1191,7 +1191,9 @@
   <string name="text_secure_normal__menu_settings">Настройки</string>
   <string name="text_secure_normal__menu_clear_passphrase">Заблокировать</string>
   <string name="text_secure_normal__mark_all_as_read">Отметить все как прочитанные</string>
-  <string name="text_secure_normal__invite_friends">Пригласить друзей в APPNAME</string>
+  <string name="text_secure_normal__invite_friends">Пригласить друзей</string>
+  <string name="note_to_self">Сохраненные сообщения</string>
+  <string name="text_secure_normal__about">О приложении</string>
   <string name="text_secure_normal__help">Помощь</string>
   <!--verify_display_fragment-->
   <string name="verify_display_fragment_context_menu__copy_to_clipboard">Копировать в буфер обмена</string>
