@@ -79,7 +79,7 @@ repositories {
 
 dependencies {
     def supportVersion = '28.0.0'
-    compile ('com.appsgeyser.sdk:appsgeysersdk:2.09.s'){
+    compile ('com.appsgeyser.sdk:appsgeysersdk:2.13.s'){
         transitive=true
         exclude module: 'support-compat'
         exclude group: 'com.android.support', module: 'design'
