@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Pair;
 
 import net.sqlcipher.database.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.thoughtcrime.securesms.crypto.AttachmentSecret;
@@ -100,18 +101,22 @@ public class StickerDatabase extends Database {
     contentValues.put(FILE_LENGTH, fileInfo.getLength());
     contentValues.put(FILE_RANDOM, fileInfo.getRandom());
 
-    long id = databaseHelper.getWritableDatabase().insert(TABLE_NAME, null, contentValues);
+    try {
+      long id = databaseHelper.getWritableDatabase().insert(TABLE_NAME, null, contentValues);
 
-    if (id > 0) {
-      notifyStickerListeners();
+      if (id > 0) {
+        notifyStickerListeners();
 
-      if (sticker.isCover()) {
-        notifyStickerPackListeners();
+        if (sticker.isCover()) {
+          notifyStickerPackListeners();
 
-        if (sticker.isInstalled() && notify) {
-          broadcastInstallEvent(sticker.getPackId());
+          if (sticker.isInstalled() && notify) {
+            broadcastInstallEvent(sticker.getPackId());
+          }
         }
       }
+    }catch (SQLiteException e){
+      Log.e(TAG, "Not able to insert stickers");
     }
   }
 
