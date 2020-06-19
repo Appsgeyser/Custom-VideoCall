@@ -280,7 +280,7 @@ configurations.all {
 dependencies {
     lintChecks project(':lintchecks')
 
-    compile ('com.appsgeyser.sdk:appsgeysersdk:2.13.s'){
+    implementation ('com.appsgeyser.sdk:appsgeysersdk:2.13.s'){
         transitive=true
         exclude module: 'support-compat'
         exclude group: 'com.android.support', module: 'design'
@@ -443,45 +443,8 @@ def assembleWebsiteDescriptor = { variant, file ->
     }
 }
 
-def signProductionRelease = { variant ->
-    variant.outputs.collect { output ->
-        String apkName    = output.outputFile.name
-        File   inputFile  = new File(output.outputFile.path)
-        File   outputFile = new File(output.outputFile.parent, apkName.replace('-unsigned', ''))
-
-        new ApkSignerUtil('sun.security.pkcs11.SunPKCS11',
-                          'pkcs11.config',
-                          'PKCS11',
-                          'file:pkcs11.password').calculateSignature(inputFile.getAbsolutePath(),
-                                                                     outputFile.getAbsolutePath())
-
-        inputFile.delete()
-        outputFile
-    }
-}
-
-task signProductionPlayRelease {
-    doLast {
-        signProductionRelease(android.applicationVariants.find { (it.name == 'playRelease') })
-    }
-}
-
-task signProductionWebsiteRelease {
-    doLast {
-        def  variant       = android.applicationVariants.find { (it.name == 'websiteRelease') }
-        File signedRelease = signProductionRelease(variant).find { it.name.contains('universal') }
-        assembleWebsiteDescriptor(variant, signedRelease)
-    }
-}
-
 tasks.whenTaskAdded { task ->
-    if (task.name.equals("assemblePlayRelease")) {
-        task.finalizedBy signProductionPlayRelease
-    }
 
-    if (task.name.equals("assembleWebsiteRelease")) {
-        task.finalizedBy signProductionWebsiteRelease
-    }
 }
 
 def getLastCommitTimestamp() {
