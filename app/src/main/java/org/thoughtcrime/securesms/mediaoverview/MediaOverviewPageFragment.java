@@ -245,7 +245,7 @@ public final class MediaOverviewPageFragment extends Fragment
 
       Intent intent = new Intent(Intent.ACTION_VIEW);
       intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-      intent.setDataAndType(PartAuthority.getAttachmentPublicUri(uri), mediaRecord.getContentType());
+      intent.setDataAndType(PartAuthority.getAttachmentPublicUri(context, uri), mediaRecord.getContentType());
       try {
         context.startActivity(intent);
       } catch (ActivityNotFoundException e) {

@@ -137,7 +137,7 @@ final class GroupManagerV1 {
     GroupContext groupContext = groupContextBuilder.build();
 
     if (avatar != null) {
-      Uri avatarUri = BlobProvider.getInstance().forData(avatar).createForSingleUseInMemory();
+      Uri avatarUri = BlobProvider.getInstance().forData(avatar).createForSingleUseInMemory(context);
       avatarAttachment = new UriAttachment(avatarUri, MediaUtil.IMAGE_PNG, AttachmentDatabase.TRANSFER_PROGRESS_DONE, avatar.length, null, false, false, null, null, null, null, null);
     }
 

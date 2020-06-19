@@ -222,7 +222,7 @@ public class MmsDownloadJob extends BaseJob {
         PduPart part = media.getPart(i);
 
         if (part.getData() != null) {
-          Uri    uri  = BlobProvider.getInstance().forData(part.getData()).createForSingleUseInMemory();
+          Uri    uri  = BlobProvider.getInstance().forData(part.getData()).createForSingleUseInMemory(context);
           String name = null;
 
           if (part.getName() != null) name = Util.toIsoString(part.getName());

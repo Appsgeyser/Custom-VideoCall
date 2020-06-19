@@ -42,7 +42,7 @@ final class StickerPackPreviewViewModel extends ViewModel {
       }
     };
 
-    application.getContentResolver().registerContentObserver(DatabaseContentProviders.StickerPack.CONTENT_URI, true, packObserver);
+    application.getContentResolver().registerContentObserver(DatabaseContentProviders.StickerPack.CONTENT_URI(application.getApplicationContext()), true, packObserver);
   }
 
   LiveData<Optional<StickerManifestResult>> getStickerManifest(@NonNull String packId, @NonNull String packKey) {

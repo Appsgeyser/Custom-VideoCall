@@ -35,7 +35,7 @@ public final class MessageUtil {
                                      .forData(textData)
                                      .withMimeType(MediaUtil.LONG_TEXT)
                                      .withFileName(filename)
-                                     .createForSingleSessionInMemory();
+                                     .createForSingleSessionInMemory(context);
 
       textSlide = Optional.of(new TextSlide(context, textUri, filename, textData.length));
     }

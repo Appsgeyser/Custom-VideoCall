@@ -42,7 +42,7 @@ class ViewOnceMessageViewModel extends ViewModel {
 
     repository.getMessage(messageId, message -> {
       if (message.isPresent()) {
-        Uri uri = DatabaseContentProviders.Conversation.getUriForThread(message.get().getThreadId());
+        Uri uri = DatabaseContentProviders.Conversation.getUriForThread(application.getApplicationContext(), message.get().getThreadId());
         application.getContentResolver().registerContentObserver(uri, true, observer);
       }
 

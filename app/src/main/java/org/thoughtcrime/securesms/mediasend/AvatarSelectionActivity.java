@@ -76,7 +76,7 @@ public class AvatarSelectionActivity extends AppCompatActivity implements Camera
     Uri blobUri = BlobProvider.getInstance()
                               .forData(data)
                               .withMimeType(MediaUtil.IMAGE_JPEG)
-                              .createForSingleSessionInMemory();
+                              .createForSingleSessionInMemory(this);
 
     onMediaSelected(new Media(blobUri,
                               MediaUtil.IMAGE_JPEG,

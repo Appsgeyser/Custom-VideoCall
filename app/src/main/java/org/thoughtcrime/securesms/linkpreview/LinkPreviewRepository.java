@@ -161,7 +161,7 @@ public class LinkPreviewRepository {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
 
         byte[]               bytes     = baos.toByteArray();
-        Uri                  uri       = BlobProvider.getInstance().forData(bytes).createForSingleSessionInMemory();
+        Uri                  uri       = BlobProvider.getInstance().forData(bytes).createForSingleSessionInMemory(context);
         Optional<Attachment> thumbnail = Optional.of(new UriAttachment(uri,
                                                                        uri,
                                                                        MediaUtil.IMAGE_JPEG,
@@ -236,7 +236,7 @@ public class LinkPreviewRepository {
           bitmap.compress(Bitmap.CompressFormat.WEBP, 80, baos);
 
           byte[]               bytes     = baos.toByteArray();
-          Uri                  uri       = BlobProvider.getInstance().forData(bytes).createForSingleSessionInMemory();
+          Uri                  uri       = BlobProvider.getInstance().forData(bytes).createForSingleSessionInMemory(context);
           Optional<Attachment> thumbnail = Optional.of(new UriAttachment(uri,
                                                        uri,
                                                        MediaUtil.IMAGE_WEBP,

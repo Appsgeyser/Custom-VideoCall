@@ -47,7 +47,7 @@ abstract class ConversationListDataSource extends PositionalDataSource<Conversat
       context.getContentResolver().unregisterContentObserver(contentObserver);
     });
 
-    context.getContentResolver().registerContentObserver(DatabaseContentProviders.ConversationList.CONTENT_URI,  true, contentObserver);
+    context.getContentResolver().registerContentObserver(DatabaseContentProviders.ConversationList.CONTENT_URI(context),  true, contentObserver);
   }
 
   private static ConversationListDataSource create(@NonNull Context context, @NonNull Invalidator invalidator, boolean isArchived) {

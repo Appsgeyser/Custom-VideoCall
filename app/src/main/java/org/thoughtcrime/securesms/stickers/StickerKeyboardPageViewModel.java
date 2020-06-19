@@ -39,7 +39,7 @@ final class StickerKeyboardPageViewModel extends ViewModel {
       }
     };
 
-    application.getContentResolver().registerContentObserver(DatabaseContentProviders.Sticker.CONTENT_URI, true, observer);
+    application.getContentResolver().registerContentObserver(DatabaseContentProviders.Sticker.CONTENT_URI(application.getApplicationContext()), true, observer);
   }
 
   LiveData<List<StickerRecord>> getStickers(@NonNull String packId) {

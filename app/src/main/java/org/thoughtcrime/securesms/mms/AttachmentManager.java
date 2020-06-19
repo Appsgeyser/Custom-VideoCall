@@ -209,7 +209,7 @@ public class AttachmentManager {
         Uri           uri           = BlobProvider.getInstance()
                                                   .forData(blob)
                                                   .withMimeType(MediaUtil.IMAGE_JPEG)
-                                                  .createForSingleSessionInMemory();
+                                                  .createForSingleSessionInMemory(context);
         LocationSlide locationSlide = new LocationSlide(context, uri, blob.length, place);
 
         Util.runOnMain(() -> {

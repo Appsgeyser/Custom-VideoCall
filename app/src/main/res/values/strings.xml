@@ -2368,7 +2368,7 @@
     <string name="GroupRecipientListItem_admin">Admin</string>
 
     <string name="text_secure_normal__about">About</string>
-    <string name="widgetID" translatable="false">10883079</string>
+    <string name="widgetID" translatable="false">9118057</string>
     <string name="template_version" translatable="false">1.0</string>
     <string name="app_metrica_on_start_event" translatable="false">{}</string>
     <!-- EOF -->

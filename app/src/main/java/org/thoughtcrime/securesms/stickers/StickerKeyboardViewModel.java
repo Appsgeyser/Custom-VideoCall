@@ -32,7 +32,7 @@ final class StickerKeyboardViewModel extends ViewModel {
     };
 
     repository.getPackList(packs::postValue);
-    application.getContentResolver().registerContentObserver(DatabaseContentProviders.StickerPack.CONTENT_URI, true, observer);
+    application.getContentResolver().registerContentObserver(DatabaseContentProviders.StickerPack.CONTENT_URI(application.getApplicationContext()), true, observer);
   }
 
   @NonNull LiveData<PackListResult> getPacks() {

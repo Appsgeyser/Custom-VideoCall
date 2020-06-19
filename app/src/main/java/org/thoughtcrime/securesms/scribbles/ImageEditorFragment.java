@@ -427,7 +427,7 @@ public final class ImageEditorFragment extends Fragment implements ImageEditorHu
                      return BlobProvider.getInstance()
                                         .forData(outputStream.toByteArray())
                                         .withMimeType(MediaUtil.IMAGE_JPEG)
-                                        .createForSingleUseInMemory();
+                                        .createForSingleUseInMemory(getContext());
 
                    }, uri -> {
                      SaveAttachmentTask saveTask = new SaveAttachmentTask(requireContext());

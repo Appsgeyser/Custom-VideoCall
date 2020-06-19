@@ -53,7 +53,7 @@ class ConversationDataSource extends PositionalDataSource<MessageRecord> {
       context.getContentResolver().unregisterContentObserver(contentObserver);
     });
 
-    context.getContentResolver().registerContentObserver(DatabaseContentProviders.Conversation.getUriForThread(threadId), true, contentObserver);
+    context.getContentResolver().registerContentObserver(DatabaseContentProviders.Conversation.getUriForThread(context, threadId), true, contentObserver);
   }
 
   @Override

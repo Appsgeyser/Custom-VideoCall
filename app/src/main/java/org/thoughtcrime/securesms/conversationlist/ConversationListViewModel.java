@@ -80,7 +80,7 @@ class ConversationListViewModel extends ViewModel {
       updateArchivedCount();
     }
 
-    application.getContentResolver().registerContentObserver(DatabaseContentProviders.ConversationList.CONTENT_URI, true, observer);
+    application.getContentResolver().registerContentObserver(DatabaseContentProviders.ConversationList.CONTENT_URI(application.getApplicationContext()), true, observer);
   }
 
   @NonNull LiveData<SearchResult> getSearchResult() {

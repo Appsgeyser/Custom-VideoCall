@@ -43,7 +43,11 @@ public class BlobProvider {
   private static final String MULTI_SESSION_DIRECTORY  = "multi_session_blobs";
   private static final String SINGLE_SESSION_DIRECTORY = "single_session_blobs";
 
-  public static final Uri        CONTENT_URI = Uri.parse("content://org.thoughtcrime.securesms/blob");
+
+  public static Uri CONTENT_URI(Context context) {
+    return Uri.parse("content://"+context.getPackageName()+"/blob");
+  }
+
   public static final String     AUTHORITY   = "org.thoughtcrime.securesms";
   public static final String     PATH        = "blob/*/*/*/*/*";
 
@@ -267,11 +271,11 @@ public class BlobProvider {
       }
     });
 
-    return buildUri(blobSpec);
+    return buildUri(context, blobSpec);
   }
 
-  private synchronized @NonNull Uri writeBlobSpecToMemory(@NonNull BlobSpec blobSpec, @NonNull byte[] data) {
-    Uri uri = buildUri(blobSpec);
+  private synchronized @NonNull Uri writeBlobSpecToMemory(Context context, @NonNull BlobSpec blobSpec, @NonNull byte[] data) {
+    Uri uri = buildUri(context, blobSpec);
     memoryBlobs.put(uri, data);
     return uri;
   }
@@ -284,8 +288,8 @@ public class BlobProvider {
     return storageType == StorageType.MULTI_SESSION_DISK ? MULTI_SESSION_DIRECTORY : SINGLE_SESSION_DIRECTORY;
   }
 
-  private static @NonNull Uri buildUri(@NonNull BlobSpec blobSpec) {
-    return CONTENT_URI.buildUpon()
+  private static @NonNull Uri buildUri(Context context, @NonNull BlobSpec blobSpec) {
+    return CONTENT_URI(context).buildUpon()
                       .appendPath(blobSpec.getStorageType().encode())
                       .appendPath(blobSpec.getMimeType())
                       .appendPath(blobSpec.getFileName())
@@ -407,8 +411,8 @@ public class BlobProvider {
      * Create a blob that is stored in memory and can only be read a single time. After a single
      * read, it will be removed from storage. Useful for when a Uri is needed to read transient data.
      */
-    public Uri createForSingleUseInMemory() {
-      return writeBlobSpecToMemory(buildBlobSpec(StorageType.SINGLE_USE_MEMORY), data);
+    public Uri createForSingleUseInMemory(Context context) {
+      return writeBlobSpecToMemory(context, buildBlobSpec(StorageType.SINGLE_USE_MEMORY), data);
     }
 
     /**
@@ -416,8 +420,8 @@ public class BlobProvider {
      * always try to call {@link BlobProvider#delete(Context, Uri)} after you're done with the blob
      * to free up memory.
      */
-    public Uri createForSingleSessionInMemory() {
-      return writeBlobSpecToMemory(buildBlobSpec(StorageType.SINGLE_SESSION_MEMORY), data);
+    public Uri createForSingleSessionInMemory(Context context) {
+      return writeBlobSpecToMemory(context, buildBlobSpec(StorageType.SINGLE_SESSION_MEMORY), data);
     }
   }
 

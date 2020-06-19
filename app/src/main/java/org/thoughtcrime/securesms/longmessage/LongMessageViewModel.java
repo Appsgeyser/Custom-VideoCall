@@ -34,7 +34,7 @@ class LongMessageViewModel extends ViewModel {
 
     repository.getMessage(application, messageId, isMms, longMessage -> {
       if (longMessage.isPresent()) {
-        Uri uri = DatabaseContentProviders.Conversation.getUriForThread(longMessage.get().getMessageRecord().getThreadId());
+        Uri uri = DatabaseContentProviders.Conversation.getUriForThread(application.getApplicationContext(), longMessage.get().getMessageRecord().getThreadId());
         application.getContentResolver().registerContentObserver(uri, true, messageObserver);
       }
 

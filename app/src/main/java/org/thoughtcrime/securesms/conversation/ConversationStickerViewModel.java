@@ -42,7 +42,7 @@ class ConversationStickerViewModel extends ViewModel {
       }
     };
 
-    application.getContentResolver().registerContentObserver(DatabaseContentProviders.StickerPack.CONTENT_URI, true, packObserver);
+    application.getContentResolver().registerContentObserver(DatabaseContentProviders.StickerPack.CONTENT_URI(application.getApplicationContext()), true, packObserver);
   }
 
   @NonNull LiveData<List<StickerRecord>> getStickerResults() {

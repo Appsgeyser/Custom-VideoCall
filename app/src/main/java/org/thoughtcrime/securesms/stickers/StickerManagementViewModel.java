@@ -35,7 +35,7 @@ final class StickerManagementViewModel extends ViewModel {
       }
     };
 
-    application.getContentResolver().registerContentObserver(DatabaseContentProviders.StickerPack.CONTENT_URI, true, observer);
+    application.getContentResolver().registerContentObserver(DatabaseContentProviders.StickerPack.CONTENT_URI(application.getApplicationContext()), true, observer);
   }
 
   void init() {

@@ -2,6 +2,7 @@ package org.thoughtcrime.securesms.database;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import androidx.annotation.NonNull;
@@ -14,31 +15,41 @@ import androidx.annotation.Nullable;
 public class DatabaseContentProviders {
 
   public static class ConversationList extends NoopContentProvider {
-    public static final Uri CONTENT_URI = Uri.parse("content://org.thoughtcrime.securesms.database.conversationlist");
+    public static Uri CONTENT_URI(Context context) {
+      return Uri.parse("content://"+context.getPackageName()+".database.conversationlist");
+    }
   }
 
   public static class Conversation extends NoopContentProvider {
-    private static final String CONTENT_URI_STRING = "content://org.thoughtcrime.securesms.database.conversation/";
-
-    public static Uri getUriForThread(long threadId) {
-      return Uri.parse(CONTENT_URI_STRING + threadId);
+    public static String CONTENT_URI_STRING(Context context) {
+      return "content://"+context.getPackageName()+".database.conversation/";
     }
 
-    public static Uri getVerboseUriForThread(long threadId) {
-      return Uri.parse(CONTENT_URI_STRING + "verbose/" + threadId);
+    public static Uri getUriForThread(Context context, long threadId) {
+      return Uri.parse(CONTENT_URI_STRING(context) + threadId);
+    }
+
+    public static Uri getVerboseUriForThread(Context context, long threadId) {
+      return Uri.parse(CONTENT_URI_STRING(context) + "verbose/" + threadId);
     }
   }
 
   public static class Attachment extends NoopContentProvider {
-    public static final Uri CONTENT_URI = Uri.parse("content://org.thoughtcrime.securesms.database.attachment");
+    public static Uri CONTENT_URI(Context context) {
+      return Uri.parse("content://"+context.getPackageName()+".database.attachment");
+    }
   }
 
   public static class Sticker extends NoopContentProvider {
-    public static final Uri CONTENT_URI = Uri.parse("content://org.thoughtcrime.securesms.database.sticker");
+    public static Uri CONTENT_URI(Context context) {
+      return Uri.parse("content://"+context.getPackageName()+".database.sticker");
+    }
   }
 
   public static class StickerPack extends NoopContentProvider {
-    public static final Uri CONTENT_URI = Uri.parse("content://org.thoughtcrime.securesms.database.stickerpack");
+    public static Uri CONTENT_URI(Context context) {
+      return Uri.parse("content://"+context.getPackageName()+".database.stickerpack");
+    }
   }
 
   private static abstract class NoopContentProvider extends ContentProvider {
