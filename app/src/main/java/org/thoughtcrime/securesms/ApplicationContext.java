@@ -17,6 +17,7 @@
 package org.thoughtcrime.securesms;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -81,6 +82,7 @@ import org.whispersystems.libsignal.logging.SignalProtocolLoggerProvider;
 
 import java.security.Security;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -114,41 +116,63 @@ public class ApplicationContext extends MultiDexApplication implements DefaultLi
   public void onCreate() {
     super.onCreate();
     Log.i(TAG, "onCreate()");
-    initializeSecurityProvider();
-    initializeLogging();
-    //initializeCrashHandling();
-    initializeAppDependencies();
-    initializeFirstEverAppLaunch();
-    initializeApplicationMigrations();
-    initializeMessageRetrieval();
-    initializeExpiringMessageManager();
-    initializeRevealableMessageManager();
-    initializeTypingStatusRepository();
-    initializeTypingStatusSender();
-    initializeGcmCheck();
-    initializeSignedPreKeyCheck();
-    initializePeriodicTasks();
-    initializeCircumvention();
-    initializeRingRtc();
-    initializePendingMessages();
-    initializeBlobProvider();
-    initializeCleanup();
-    initializeAppsgeyser();
+    if(isMainProcess()) {
+      initializeSecurityProvider();
+      initializeLogging();
+      //initializeCrashHandling();
+      initializeAppDependencies();
+      initializeFirstEverAppLaunch();
+      initializeApplicationMigrations();
+      initializeMessageRetrieval();
+      initializeExpiringMessageManager();
+      initializeRevealableMessageManager();
+      initializeTypingStatusRepository();
+      initializeTypingStatusSender();
+      initializeGcmCheck();
+      initializeSignedPreKeyCheck();
+      initializePeriodicTasks();
+      initializeCircumvention();
+      initializeRingRtc();
+      initializePendingMessages();
+      initializeBlobProvider();
+      initializeCleanup();
+      initializeAppsgeyser();
 
-    FeatureFlags.init();
-    NotificationChannels.create(this);
-    RefreshPreKeysJob.scheduleIfNecessary();
-    StorageSyncHelper.scheduleRoutineSync();
-    RetrieveProfileJob.enqueueRoutineFetchIfNeccessary(this);
-    RegistrationUtil.markRegistrationPossiblyComplete();
-    ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
+      FeatureFlags.init();
+      NotificationChannels.create(this);
+      RefreshPreKeysJob.scheduleIfNecessary();
+      StorageSyncHelper.scheduleRoutineSync();
+      RetrieveProfileJob.enqueueRoutineFetchIfNeccessary(this);
+      RegistrationUtil.markRegistrationPossiblyComplete();
+      ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
 
-    if (Build.VERSION.SDK_INT < 21) {
-      AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+      if (Build.VERSION.SDK_INT < 21) {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+      }
+
+      ApplicationDependencies.getJobManager().beginJobLoop();
+      Config.INSTANCE.init(getApplicationContext());
     }
+  }
 
-    ApplicationDependencies.getJobManager().beginJobLoop();
-    Config.INSTANCE.init(getApplicationContext());
+  private boolean isMainProcess() {
+    return getPackageName().equals(getCurrentProcessName());
+  }
+
+  // you can use this method to get current process name, you will get
+// name like "com.package.name"(main process name) or "com.package.name:remote"
+
+  private String getCurrentProcessName() {
+    int mypid = android.os.Process.myPid();
+    ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+    List<ActivityManager.RunningAppProcessInfo> infos = manager.getRunningAppProcesses();
+    for(ActivityManager.RunningAppProcessInfo info : infos) {
+      if (info.pid == mypid) {
+        return info.processName;
+      }
+    }
+    // may never return null
+    return null;
   }
 
   private void initializeAppsgeyser() {
@@ -158,24 +182,28 @@ public class ApplicationContext extends MultiDexApplication implements DefaultLi
 
   @Override
   public void onStart(@NonNull LifecycleOwner owner) {
-    isAppVisible = true;
-    Log.i(TAG, "App is now visible.");
-    FeatureFlags.refreshIfNecessary();
-    ApplicationDependencies.getRecipientCache().warmUp();
-    executePendingContactSync();
-    KeyCachingService.onAppForegrounded(this);
-    ApplicationDependencies.getFrameRateTracker().begin();
-    ApplicationDependencies.getMegaphoneRepository().onAppForegrounded();
-    catchUpOnMessages();
+    if(isMainProcess()) {
+      isAppVisible = true;
+      Log.i(TAG, "App is now visible.");
+      FeatureFlags.refreshIfNecessary();
+      ApplicationDependencies.getRecipientCache().warmUp();
+      executePendingContactSync();
+      KeyCachingService.onAppForegrounded(this);
+      ApplicationDependencies.getFrameRateTracker().begin();
+      ApplicationDependencies.getMegaphoneRepository().onAppForegrounded();
+      catchUpOnMessages();
+    }
   }
 
   @Override
   public void onStop(@NonNull LifecycleOwner owner) {
-    isAppVisible = false;
-    Log.i(TAG, "App is no longer visible.");
-    KeyCachingService.onAppBackgrounded(this);
-    ApplicationDependencies.getMessageNotifier().clearVisibleThread();
-    ApplicationDependencies.getFrameRateTracker().end();
+    if(isMainProcess()) {
+      isAppVisible = false;
+      Log.i(TAG, "App is no longer visible.");
+      KeyCachingService.onAppBackgrounded(this);
+      ApplicationDependencies.getMessageNotifier().clearVisibleThread();
+      ApplicationDependencies.getFrameRateTracker().end();
+    }
   }
 
   public ExpiringMessageManager getExpiringMessageManager() {
