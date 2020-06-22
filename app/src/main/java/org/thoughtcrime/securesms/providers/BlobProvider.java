@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.WorkerThread;
 
+import org.thoughtcrime.securesms.ApplicationContext;
 import org.thoughtcrime.securesms.crypto.AttachmentSecret;
 import org.thoughtcrime.securesms.crypto.AttachmentSecretProvider;
 import org.thoughtcrime.securesms.crypto.ModernDecryptingPartInputStream;
@@ -48,7 +49,9 @@ public class BlobProvider {
     return Uri.parse("content://"+context.getPackageName()+"/blob");
   }
 
-  public static final String     AUTHORITY   = "org.thoughtcrime.securesms";
+  public static final String     getAUTHORITY(Context context){
+    return  context.getPackageName();
+  }
   public static final String     PATH        = "blob/*/*/*/*/*";
 
   private static final int STORAGE_TYPE_PATH_SEGMENT = 1;
@@ -58,9 +61,12 @@ public class BlobProvider {
   private static final int ID_PATH_SEGMENT           = 5;
 
   private static final int        MATCH       = 1;
-  private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH) {{
-    addURI(AUTHORITY, PATH, MATCH);
-  }};
+
+  private static UriMatcher getURI_MATCHER(Context context){
+    return new UriMatcher(UriMatcher.NO_MATCH) {{
+      addURI(getAUTHORITY(context), PATH, MATCH);
+    }};
+  }
 
   private static final BlobProvider INSTANCE = new BlobProvider();
 
@@ -220,7 +226,7 @@ public class BlobProvider {
   }
 
   public static boolean isAuthority(@NonNull Uri uri) {
-    return URI_MATCHER.match(uri) == MATCH;
+    return getURI_MATCHER(ApplicationContext.getInstance().getApplicationContext()).match(uri) == MATCH;
   }
 
   @WorkerThread

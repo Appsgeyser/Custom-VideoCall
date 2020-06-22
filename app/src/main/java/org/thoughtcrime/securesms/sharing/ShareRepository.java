@@ -13,6 +13,7 @@ import androidx.annotation.WorkerThread;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
+import org.thoughtcrime.securesms.ApplicationContext;
 import org.thoughtcrime.securesms.dependencies.ApplicationDependencies;
 import org.thoughtcrime.securesms.logging.Log;
 import org.thoughtcrime.securesms.mediasend.Media;
@@ -71,7 +72,7 @@ class ShareRepository {
 
     mimeType = getMimeType(context, uri, mimeType);
 
-    if (PartAuthority.isLocalUri(uri)) {
+    if (PartAuthority.isLocalUri(ApplicationContext.getInstance().getApplicationContext(), uri)) {
       return ShareData.forIntentData(uri, mimeType, false);
     } else {
       InputStream stream = context.getContentResolver().openInputStream(uri);

@@ -31,9 +31,14 @@ public class DeprecatedPersistentBlobProvider {
 
   private static final String TAG = DeprecatedPersistentBlobProvider.class.getSimpleName();
 
-  private static final String     URI_STRING            = "content://org.thoughtcrime.securesms/capture-new";
-  public  static final Uri        CONTENT_URI           = Uri.parse(URI_STRING);
-  public  static final String     AUTHORITY             = "org.thoughtcrime.securesms";
+  public static Uri CONTENT_URI(Context context) {
+    return Uri.parse("content://"+context.getPackageName()+"/capture-new");
+  }
+
+  public static final String     getAUTHORITY(Context context){
+    return  context.getPackageName();
+  }
+
   public  static final String     EXPECTED_PATH_OLD     = "capture/*/*/#";
   public  static final String     EXPECTED_PATH_NEW     = "capture-new/*/*/*/*/#";
 
@@ -45,10 +50,12 @@ public class DeprecatedPersistentBlobProvider {
   private static final int        MATCH_OLD             = 1;
   private static final int        MATCH_NEW             = 2;
 
-  private static final UriMatcher MATCHER               = new UriMatcher(UriMatcher.NO_MATCH) {{
-    addURI(AUTHORITY, EXPECTED_PATH_OLD, MATCH_OLD);
-    addURI(AUTHORITY, EXPECTED_PATH_NEW, MATCH_NEW);
-  }};
+  private static UriMatcher getURI_MATCHER(Context context){
+    return new UriMatcher(UriMatcher.NO_MATCH) {{
+      addURI(getAUTHORITY(context), EXPECTED_PATH_OLD, MATCH_OLD);
+      addURI(getAUTHORITY(context), EXPECTED_PATH_NEW, MATCH_NEW);
+    }};
+  }
 
   private static volatile DeprecatedPersistentBlobProvider instance;
 
@@ -79,7 +86,7 @@ public class DeprecatedPersistentBlobProvider {
   }
 
   public boolean delete(@NonNull Context context, @NonNull Uri uri) {
-    switch (MATCHER.match(uri)) {
+    switch (getURI_MATCHER(context).match(uri)) {
     case MATCH_OLD:
     case MATCH_NEW:
       long id = ContentUris.parseId(uri);
@@ -133,7 +140,7 @@ public class DeprecatedPersistentBlobProvider {
   public static @Nullable String getFileName(@NonNull Context context, @NonNull Uri persistentBlobUri) {
     if (!isAuthority(context, persistentBlobUri))      return null;
     if (isExternalBlobUri(context, persistentBlobUri)) return null;
-    if (MATCHER.match(persistentBlobUri) == MATCH_OLD) return null;
+    if (getURI_MATCHER(context).match(persistentBlobUri) == MATCH_OLD) return null;
 
     return persistentBlobUri.getPathSegments().get(FILENAME_PATH_SEGMENT);
   }
@@ -141,7 +148,7 @@ public class DeprecatedPersistentBlobProvider {
   public static @Nullable Long getFileSize(@NonNull Context context, Uri persistentBlobUri) {
     if (!isAuthority(context, persistentBlobUri))      return null;
     if (isExternalBlobUri(context, persistentBlobUri)) return null;
-    if (MATCHER.match(persistentBlobUri) == MATCH_OLD) return null;
+    if (getURI_MATCHER(context).match(persistentBlobUri) == MATCH_OLD) return null;
 
     try {
       return Long.valueOf(persistentBlobUri.getPathSegments().get(FILESIZE_PATH_SEGMENT));
@@ -169,7 +176,7 @@ public class DeprecatedPersistentBlobProvider {
   }
 
   public static boolean isAuthority(@NonNull Context context, @NonNull Uri uri) {
-    int matchResult = MATCHER.match(uri);
+    int matchResult = getURI_MATCHER(context).match(uri);
     return matchResult == MATCH_NEW || matchResult == MATCH_OLD || isExternalBlobUri(context, uri);
   }
 

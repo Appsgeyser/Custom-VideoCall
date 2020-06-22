@@ -246,7 +246,7 @@ public class AttachmentManager {
       @Override
       protected @Nullable Slide doInBackground(Void... params) {
         try {
-          if (PartAuthority.isLocalUri(uri)) {
+          if (PartAuthority.isLocalUri(context, uri)) {
             return getManuallyCalculatedSlideInfo(uri, width, height);
           } else {
             Slide result = getContentResolverSlideInfo(uri, width, height);
@@ -330,7 +330,7 @@ public class AttachmentManager {
         String   fileName  = null;
         String   mimeType  = null;
 
-        if (PartAuthority.isLocalUri(uri)) {
+        if (PartAuthority.isLocalUri(context, uri)) {
           mediaSize = PartAuthority.getAttachmentSize(context, uri);
           fileName  = PartAuthority.getAttachmentFileName(context, uri);
           mimeType  = PartAuthority.getAttachmentContentType(context, uri);

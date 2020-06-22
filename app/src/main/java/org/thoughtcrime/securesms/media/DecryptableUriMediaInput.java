@@ -28,7 +28,7 @@ public final class DecryptableUriMediaInput {
       return new MediaInput.MediaDataSourceMediaInput(BlobProvider.getInstance().getMediaDataSource(context, uri));
     }
 
-    if (PartAuthority.isLocalUri(uri)) {
+    if (PartAuthority.isLocalUri(context, uri)) {
       return createForAttachmentUri(context, uri);
     }
 

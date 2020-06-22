@@ -19,7 +19,7 @@ public class AttachmentBitmapDecoder implements ImageDecoder{
 
   @Override
   public Bitmap decode(Context context, Uri uri) throws Exception {
-    if (!PartAuthority.isLocalUri(uri)) {
+    if (!PartAuthority.isLocalUri(context, uri)) {
       return new SkiaImageDecoder().decode(context, uri);
     }
 

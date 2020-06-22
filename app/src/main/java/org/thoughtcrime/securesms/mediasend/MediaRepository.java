@@ -234,7 +234,7 @@ public class MediaRepository {
       try {
         if (isPopulated(m)) {
           return m;
-        } else if (PartAuthority.isLocalUri(m.getUri())) {
+        } else if (PartAuthority.isLocalUri(context, m.getUri())) {
           return getLocallyPopulatedMedia(context, m);
         } else {
           return getContentResolverPopulatedMedia(context, m);

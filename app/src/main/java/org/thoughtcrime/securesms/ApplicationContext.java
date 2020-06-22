@@ -98,6 +98,7 @@ public class ApplicationContext extends MultiDexApplication implements DefaultLi
 
   private static final String TAG = ApplicationContext.class.getSimpleName();
   public static final String  APPSGEYSER_TAG = "APPSGEYSER";
+  private static ApplicationContext sInstance;
 
   private ExpiringMessageManager   expiringMessageManager;
   private ViewOnceMessageManager   viewOnceMessageManager;
@@ -112,10 +113,16 @@ public class ApplicationContext extends MultiDexApplication implements DefaultLi
     return (ApplicationContext)context.getApplicationContext();
   }
 
+  public static ApplicationContext getInstance() {
+    return ApplicationContext.sInstance;
+  }
+
   @Override
   public void onCreate() {
     super.onCreate();
     Log.i(TAG, "onCreate()");
+    sInstance = this;
+
     if(isMainProcess()) {
       initializeSecurityProvider();
       initializeLogging();

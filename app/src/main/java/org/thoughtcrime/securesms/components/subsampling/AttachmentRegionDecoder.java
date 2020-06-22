@@ -28,7 +28,7 @@ public class AttachmentRegionDecoder implements ImageRegionDecoder {
   @Override
   public Point init(Context context, Uri uri) throws Exception {
     Log.d(TAG, "Init!");
-    if (!PartAuthority.isLocalUri(uri)) {
+    if (!PartAuthority.isLocalUri(context, uri)) {
       passthrough = new SkiaImageRegionDecoder();
       return passthrough.init(context, uri);
     }

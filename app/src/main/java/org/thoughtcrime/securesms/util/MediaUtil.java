@@ -102,7 +102,7 @@ public class MediaUtil {
   public static @Nullable String getMimeType(@NonNull Context context, @Nullable Uri uri) {
     if (uri == null) return null;
 
-    if (PartAuthority.isLocalUri(uri)) {
+    if (PartAuthority.isLocalUri(context, uri)) {
       return PartAuthority.getAttachmentContentType(context, uri);
     }
 

@@ -157,7 +157,7 @@ public class SharedContactRepository {
       Log.w(TAG, "Failed to parse the vcard.", e);
     }
 
-    if (BlobProvider.AUTHORITY.equals(uri.getAuthority())) {
+    if (BlobProvider.getAUTHORITY(context).equals(uri.getAuthority())) {
       BlobProvider.getInstance().delete(context, uri);
     }
 
