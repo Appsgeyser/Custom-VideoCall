@@ -77,8 +77,8 @@ public class WebRtcCallActivity extends AppCompatActivity {
 
   private static final String TAG = WebRtcCallActivity.class.getSimpleName();
 
-  private static final int STANDARD_DELAY_FINISH    = 1000;
-  public  static final int BUSY_SIGNAL_DELAY_FINISH = 1000;
+  private static final int STANDARD_DELAY_FINISH    = 500;
+  public  static final int BUSY_SIGNAL_DELAY_FINISH = 500;
 
   public static final String ANSWER_ACTION   = WebRtcCallActivity.class.getCanonicalName() + ".ANSWER_ACTION";
   public static final String DENY_ACTION     = WebRtcCallActivity.class.getCanonicalName() + ".DENY_ACTION";
@@ -126,6 +126,7 @@ public class WebRtcCallActivity extends AppCompatActivity {
   }
 
   private void showInterstitial(){
+
     callScreen.postDelayed(() -> {
       AppsgeyserSDK.getFastTrackAdsController().setFullscreenListener(new FastTrackBaseAdapter.FullscreenListener() {
         @Override
@@ -153,7 +154,7 @@ public class WebRtcCallActivity extends AppCompatActivity {
       PreferenceManager.getDefaultSharedPreferences(this)
               .edit().putLong("lastBannerTime", System.currentTimeMillis()).apply();
 
-    }, 1000);
+    }, 100);
   }
 
   @Override

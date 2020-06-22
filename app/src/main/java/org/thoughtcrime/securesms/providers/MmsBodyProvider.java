@@ -26,6 +26,7 @@ import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import androidx.annotation.NonNull;
 
+import org.thoughtcrime.securesms.ApplicationContext;
 import org.thoughtcrime.securesms.logging.Log;
 
 import java.io.File;
@@ -41,12 +42,11 @@ public class MmsBodyProvider extends ContentProvider {
   public static Uri CONTENT_URI(Context context) {
     return Uri.parse("content://"+context.getPackageName()+".provider.securesms.mms/mms");
   }
-  
-  private static final UriMatcher uriMatcher;
 
-  static {
-    uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-    uriMatcher.addURI("org.thoughtcrime.provider.securesms.mms", "mms/#", SINGLE_ROW);
+  private static UriMatcher getURI_MATCHER(Context context){
+    UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+    uriMatcher.addURI(context.getPackageName() + ".provider.securesms.mms", "mms/#", SINGLE_ROW);
+    return uriMatcher;
   }
 
   @Override
@@ -64,7 +64,7 @@ public class MmsBodyProvider extends ContentProvider {
   public ParcelFileDescriptor openFile(@NonNull Uri uri, @NonNull String mode) throws FileNotFoundException {
     Log.i(TAG, "openFile(" + uri + ", " + mode + ")");
 
-    switch (uriMatcher.match(uri)) {
+    switch (getURI_MATCHER(ApplicationContext.getInstance().getApplicationContext()).match(uri)) {
     case SINGLE_ROW:
       Log.i(TAG, "Fetching message body for a single row...");
       File tmpFile = getFile(uri);
@@ -87,7 +87,7 @@ public class MmsBodyProvider extends ContentProvider {
 
   @Override
   public int delete(@NonNull Uri uri, String arg1, String[] arg2) {
-    switch (uriMatcher.match(uri)) {
+    switch (getURI_MATCHER(ApplicationContext.getInstance().getApplicationContext()).match(uri)) {
     case SINGLE_ROW:
       return getFile(uri).delete() ? 1 : 0;
     }

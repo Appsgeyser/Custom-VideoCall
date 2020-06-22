@@ -28,6 +28,8 @@ import android.os.MemoryFile;
 import android.os.ParcelFileDescriptor;
 import android.provider.OpenableColumns;
 import androidx.annotation.NonNull;
+
+import org.thoughtcrime.securesms.ApplicationContext;
 import org.thoughtcrime.securesms.logging.Log;
 
 import org.thoughtcrime.securesms.attachments.AttachmentId;
@@ -53,11 +55,10 @@ public class PartProvider extends ContentProvider {
 
   private static final int    SINGLE_ROW         = 1;
 
-  private static final UriMatcher uriMatcher;
-
-  static {
-    uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-    uriMatcher.addURI("org.thoughtcrime.provider.securesms", "part/*/#", SINGLE_ROW);
+  private static UriMatcher getURI_MATCHER(Context context){
+    UriMatcher  uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+    uriMatcher.addURI(context.getPackageName() + ".provider.securesms", "part/*/#", SINGLE_ROW);
+    return uriMatcher;
   }
 
   @Override
@@ -80,7 +81,7 @@ public class PartProvider extends ContentProvider {
       return null;
     }
 
-    switch (uriMatcher.match(uri)) {
+    switch (getURI_MATCHER(ApplicationContext.getInstance().getApplicationContext()).match(uri)) {
     case SINGLE_ROW:
       Log.i(TAG, "Parting out a single row...");
       try {
@@ -105,7 +106,7 @@ public class PartProvider extends ContentProvider {
   public String getType(@NonNull Uri uri) {
     Log.i(TAG, "getType() called: " + uri);
 
-    switch (uriMatcher.match(uri)) {
+    switch (getURI_MATCHER(ApplicationContext.getInstance().getApplicationContext()).match(uri)) {
       case SINGLE_ROW:
         PartUriParser      partUriParser = new PartUriParser(uri);
         DatabaseAttachment attachment    = DatabaseFactory.getAttachmentDatabase(getContext())
@@ -131,7 +132,7 @@ public class PartProvider extends ContentProvider {
 
     if (projection == null || projection.length <= 0) return null;
 
-    switch (uriMatcher.match(url)) {
+    switch (getURI_MATCHER(ApplicationContext.getInstance().getApplicationContext()).match(url)) {
       case SINGLE_ROW:
         PartUriParser      partUri      = new PartUriParser(url);
         DatabaseAttachment attachment   = DatabaseFactory.getAttachmentDatabase(getContext()).getAttachment(partUri.getPartId());
