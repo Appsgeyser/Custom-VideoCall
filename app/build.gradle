@@ -108,8 +108,8 @@ def abiPostFix = ['universal'   : 0,
 
 android {
     flavorDimensions "none"
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 29
+    buildToolsVersion '29.0.1'
     useLibrary 'org.apache.http.legacy'
 
     dexOptions {
@@ -121,7 +121,7 @@ android {
         versionName canonicalVersionName
 
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 29
         multiDexEnabled true
 
         vectorDrawables.useSupportLibrary = true
@@ -280,7 +280,7 @@ configurations.all {
 dependencies {
     lintChecks project(':lintchecks')
 
-    implementation ('com.appsgeyser.sdk:appsgeysersdk:2.14.s'){
+    implementation ('com.appsgeyser.sdk:appsgeysersdk:2.15.s'){
         transitive=true
         exclude module: 'support-compat'
         exclude group: 'com.android.support', module: 'design'
