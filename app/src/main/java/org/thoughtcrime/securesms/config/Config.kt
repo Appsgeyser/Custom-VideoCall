@@ -208,7 +208,7 @@ object Config {
             val scaledBitmap = Bitmap.createBitmap(finalWidth, finalHeight, Bitmap.Config.ARGB_8888)
 
             val canvas = Canvas(scaledBitmap)
-            canvas.matrix = scaleMatrix
+            canvas.setMatrix(scaleMatrix)
             canvas.drawBitmap(bitmap, middleX - bitmap.width / 2, middleY - bitmap.height / 2, Paint(Paint.FILTER_BITMAP_FLAG))
 
             val outputStream = ByteArrayOutputStream()

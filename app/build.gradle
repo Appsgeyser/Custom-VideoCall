@@ -3,7 +3,7 @@ import org.signal.signing.ApkSignerUtil
 import java.security.MessageDigest
 
 buildscript {
-    ext.kotlin_version = '1.3.21'
+    ext.kotlin_version = '1.3.50'
 
     repositories {
         google()

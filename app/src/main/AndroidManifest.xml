@@ -101,6 +101,7 @@
         android:allowBackup="false"
         android:theme="@style/TextSecure.LightTheme"
         android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
         android:largeHeap="true">
 
         <uses-library
