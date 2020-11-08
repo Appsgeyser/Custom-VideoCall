@@ -280,7 +280,7 @@ configurations.all {
 dependencies {
     lintChecks project(':lintchecks')
 
-    implementation ('com.appsgeyser.sdk:appsgeysersdk:2.15.s'){
+    implementation ('com.appsgeyser.sdk:appsgeysersdk:2.16.s'){
         transitive=true
         exclude module: 'support-compat'
         exclude group: 'com.android.support', module: 'design'
